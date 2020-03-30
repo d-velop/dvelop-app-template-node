@@ -97,7 +97,7 @@ function renderRequest(request) {
     let icon = document.createElement('span');
     icon.classList = "mdc-list-item__graphic  material-icons";
     if (request.state === 'GRANTED') {
-        icon.innerText = 'done'
+        icon.innerText = 'check_circle'
     } else if (request.state === 'DENIED') {
         icon.innerText = 'cancel'
     } else {
