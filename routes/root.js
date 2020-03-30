@@ -9,7 +9,6 @@ module.exports = function (assetBasePath, basePath, version) {
         res.format({
             'text/html': function () {
                 res.render('root', {
-                    base: basePath,
                     title: 'Vacationprocess',
                     stylesheet: `${assetBasePath}/root.css`,
                     version: version
