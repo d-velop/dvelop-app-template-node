@@ -11,7 +11,23 @@ module.exports = function (assetBasePath) {
             'application/hal+json': function () {
                 res.send({
                     vacationRequests: [
-                        {user: "lklo"}
+                        {
+                            id: '06e8c6be-0ad6-46e5-952e-1bc3d3cbe856',
+                            user: "Lennart Klose",
+                            from: new Date('2020-04-01'),
+                            to: new Date('2020-12-31'),
+                            state: 'GRANTED',
+                            type: 'Compensatory off time',
+                            comment: 'I worked so hard.'
+                        },
+                        {
+                            id: '8d404a9c-81ff-4cde-bb26-9801ee219b2d',
+                            user: "Martin Testrot",
+                            from: new Date('2020-12-24'),
+                            to: new Date('2020-12-31'),
+                            state: 'DENIED',
+                            type: 'Annual leave'
+                        }
                     ]
                 });
             },

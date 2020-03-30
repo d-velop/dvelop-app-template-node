@@ -18,6 +18,14 @@
     margin-right: 16px;
 } */
 
+.mdc-list-item {
+    margin: 10px;
+}
+
+.mdc-list-item__text {
+    height: 70px;
+}
+
 
 [data-state="rejected"] .state-icon{
     color:red;

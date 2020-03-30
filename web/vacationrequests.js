@@ -7,8 +7,7 @@ const snackbar = mdc.snackbar.MDCSnackbar.attachTo(document.querySelector(".mdc-
 let selectedListItem = document.querySelector(".mdc-list-item");
 
 getVacationRequests();
-renderRequest();
-renderRequest();
+
 // event listeners
 function handleMenuClick(state) {
     const r = new XMLHttpRequest();
@@ -89,7 +88,7 @@ function getVacationRequests() {
 
     Http.onload = (e) => {
         console.log(Http.responseText)
-        return JSON.parse(Http.responseText);
+        JSON.parse(Http.responseText).vacationRequests.forEach(r => renderRequest(r));
     }
 }
 
@@ -97,11 +96,27 @@ function renderRequest(request) {
     
     let icon = document.createElement('span');
     icon.classList = "mdc-list-item__graphic  material-icons";
-    icon.innerText = "outdoor_grill";
+    if (request.state === 'GRANTED') {
+        icon.innerText = 'done'
+    } else if (request.state === 'DENIED') {
+        icon.innerText = 'cancel'
+    } else {
+        icon.innerText = 'help'
+    }
+
+    let primaryText = document.createElement('span');
+    primaryText.classList = "mdc-list-item__primary-text";
+    let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    primaryText.innerText = `${request.user}: ${new Date(request.to).toLocaleString('en-GB', options)} - ${new Date(request.from).toLocaleString('en-GB', options)}`;
+
+    let secondaryText = document.createElement('span');
+    secondaryText.classList = 'mdc-list-item__secondary-text'
+    secondaryText.innerText = `[${request.type}] ${request.comment ? 'Comment: ' + request.comment : ''}`
 
     let text = document.createElement('span');
     text.classList = "mdc-list-item__text";
-    text.innerText = "hi";
+    text.appendChild(primaryText);
+    text.appendChild(secondaryText);
 
     let buttonMore = document.createElement('button');
     buttonMore.classList = "mdc-icon-button material-icons mdc-top-app-bar__action-item";
