@@ -6,6 +6,9 @@ const menue = mdc.menu.MDCMenu.attachTo(document.querySelector(".mdc-menu"));
 const snackbar = mdc.snackbar.MDCSnackbar.attachTo(document.querySelector(".mdc-snackbar"));
 let selectedListItem = document.querySelector(".mdc-list-item");
 
+getVacationRequests();
+renderRequest();
+renderRequest();
 // event listeners
 function handleMenuClick(state) {
     const r = new XMLHttpRequest();
@@ -43,6 +46,7 @@ document.getElementById("menu_cancel").addEventListener("click", function (){
 
 const moreIconBtns = document.querySelectorAll(".mdc-icon-button");
 for (let i = 0; i < moreIconBtns.length; i++) {
+    console.log(moreIconBtns[i].innerText);
     const elmRipple = mdc.ripple.MDCRipple.attachTo(moreIconBtns[i]);
     elmRipple.unbounded = true;
 
@@ -76,5 +80,42 @@ const listItems = document.querySelectorAll(".dmc-list-item");
 for (let i = 0; i < listItems.length; i++) {
     updateStateIcon(listItems[i]);
 }
+
+function getVacationRequests() {
+    const Http = new XMLHttpRequest();
+    Http.open("GET", window.location)
+    Http.setRequestHeader('Accept', 'application/hal+json');
+    Http.send();
+
+    Http.onload = (e) => {
+        console.log(Http.responseText)
+        return JSON.parse(Http.responseText);
+    }
+}
+
+function renderRequest(request) {
+    
+    let icon = document.createElement('span');
+    icon.classList = "mdc-list-item__graphic  material-icons";
+    icon.innerText = "outdoor_grill";
+
+    let text = document.createElement('span');
+    text.classList = "mdc-list-item__text";
+    text.innerText = "hi";
+
+    let buttonMore = document.createElement('button');
+    buttonMore.classList = "mdc-icon-button material-icons mdc-top-app-bar__action-item";
+    buttonMore.innerHTML = "more_horiz"
+
+    let requestElement = document.createElement("li");
+    requestElement.classList = 'mdc-list-item';
+    requestElement.role = 'menuitem';
+    requestElement.appendChild(icon);
+    requestElement.appendChild(text);
+    requestElement.appendChild(buttonMore);
+
+    document.getElementById('requests').appendChild(requestElement);
+}
+
 
 

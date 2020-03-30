@@ -3,7 +3,7 @@
     --mdc-theme-on-primary:#333;
 }
 
-.dmc-list-item {
+/* .dmc-list-item {
     position: relative;
 }
 
@@ -16,7 +16,8 @@
 
 .dmc-list-item__graphic {
     margin-right: 16px;
-}
+} */
+
 
 [data-state="rejected"] .state-icon{
     color:red;
