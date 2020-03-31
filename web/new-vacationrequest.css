@@ -1,0 +1,19 @@
+:root{
+    --mdc-theme-primary:#333e48;
+    --mdc-theme-on-primary: #fff;
+}
+
+
+.mdc-form-field {
+    margin: 10px 50px;
+    display: block;
+}
+
+.mdc-form-field:first-of-type {
+    margin-top: 50px;
+}
+
+.mdc-text-field {
+    width: 60%;
+    min-width: 300px;
+}
