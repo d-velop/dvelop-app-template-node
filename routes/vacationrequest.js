@@ -40,6 +40,17 @@ module.exports = function (assetBasePath) {
         });
     });
 
+    router.get('/new', function (req, res, next) {
+        res.format({
+            'text/html': function () {
+                res.render('new-vacationrequest', {title: 'New Request', stylesheet: `${assetBasePath}/new-vacationrequest.css`});
+            },
+            'default': function () {
+                res.status(406).send('Not Acceptable')
+            }
+        });
+    });
+
     router.post('/', (req, res) => {
 
         let from = new Date(req.body.from);
