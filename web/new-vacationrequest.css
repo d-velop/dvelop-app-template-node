@@ -3,10 +3,15 @@
     --mdc-theme-on-primary: #fff;
 }
 
+main {
+    margin: 10px 50px;
+    width: 60%;
+    min-width: 300px;
+}
 
 .mdc-form-field {
-    margin: 10px 50px;
     display: block;
+    margin-bottom: 20px;
 }
 
 .mdc-form-field:first-of-type {
@@ -14,6 +19,10 @@
 }
 
 .mdc-text-field {
-    width: 60%;
+    width: 100%;
     min-width: 300px;
+}
+
+.mdc-button {
+    float: right;
 }

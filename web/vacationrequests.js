@@ -131,6 +131,3 @@ function renderRequest(request) {
 
     document.getElementById('requests').appendChild(requestElement);
 }
-
-
-

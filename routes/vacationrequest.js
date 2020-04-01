@@ -43,7 +43,7 @@ module.exports = function (assetBasePath) {
     router.get('/new', function (req, res, next) {
         res.format({
             'text/html': function () {
-                res.render('new-vacationrequest', {title: 'New Request', stylesheet: `${assetBasePath}/new-vacationrequest.css`});
+                res.render('new-vacationrequest', {title: 'New Request', stylesheet: `${assetBasePath}/new-vacationrequest.css`, script: `${assetBasePath}/new-vacationrequest.js`});
             },
             'default': function () {
                 res.status(406).send('Not Acceptable')
