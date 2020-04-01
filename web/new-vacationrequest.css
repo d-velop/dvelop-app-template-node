@@ -26,3 +26,8 @@ main {
 .mdc-button {
     float: right;
 }
+
+#error {
+    color: red;
+    font-size: 2em;
+}

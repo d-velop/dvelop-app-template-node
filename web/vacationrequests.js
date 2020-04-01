@@ -87,7 +87,6 @@ function getVacationRequests() {
     Http.send();
 
     Http.onload = (e) => {
-        console.log(Http.responseText)
         JSON.parse(Http.responseText).vacationRequests.forEach(r => renderRequest(r));
     }
 }
