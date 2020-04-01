@@ -27,7 +27,7 @@ module.exports = function (assetBasePath) {
     router.get('/', function (req, res, next) {
         res.format({
             'text/html': function () {
-                res.render('vacationrequests', {title: 'a', stylesheet: `${assetBasePath}/vacationrequests.css`, script: `${assetBasePath}/vacationrequests.js`});
+                res.render('vacationrequests', {title: 'Vacation requests', stylesheet: `${assetBasePath}/vacationrequests.css`, script: `${assetBasePath}/vacationrequests.js`});
             },
             'application/hal+json': function () {
                 res.send({

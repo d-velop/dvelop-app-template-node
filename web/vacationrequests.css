@@ -1,6 +1,6 @@
 :root{
-    --mdc-theme-primary:#fff;
-    --mdc-theme-on-primary:#333;
+    --mdc-theme-primary:#333e48;
+    --mdc-theme-on-primary: #fff;
 }
 
 /* .dmc-list-item {
