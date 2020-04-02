@@ -58,7 +58,9 @@ module.exports = function (assetBasePath) {
         
         if (req.body.id !== undefined) {
             res.status(400).send({error: 'Cannot specify id'});
-        } else if (from == 'Invalid Date' || to == 'Invalid Date') {
+        } else if (!req.body.user) {
+            res.status(400).send({error: 'User is mandatory'});
+        }  else if (from == 'Invalid Date' || to == 'Invalid Date') {
             res.status(400).send({error: 'Bad date'});
         } else if (req.body.type !== 'Compensatory off time' && req.body.type !== 'Annual leave' && req.body.type !== 'Special leave') {
             res.status(400).send({error: 'Bad status'})

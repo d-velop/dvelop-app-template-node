@@ -106,7 +106,7 @@ function renderRequest(request) {
     let primaryText = document.createElement('span');
     primaryText.classList = "mdc-list-item__primary-text";
     let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    primaryText.innerText = `${request.user}: ${new Date(request.to).toLocaleString('en-GB', options)} - ${new Date(request.from).toLocaleString('en-GB', options)}`;
+    primaryText.innerText = `${request.user}: ${new Date(request.from).toLocaleString('en-GB', options)} - ${new Date(request.to).toLocaleString('en-GB', options)}`;
 
     let secondaryText = document.createElement('span');
     secondaryText.classList = 'mdc-list-item__secondary-text'
