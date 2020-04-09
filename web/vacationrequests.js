@@ -6,6 +6,14 @@ const menue = mdc.menu.MDCMenu.attachTo(document.querySelector(".mdc-menu"));
 const snackbar = mdc.snackbar.MDCSnackbar.attachTo(document.querySelector(".mdc-snackbar"));
 let selectedListItem = document.querySelector(".mdc-list-item");
 
+let currentMenuId;
+
+window.addEventListener("click", function (e) {
+    console.log('hi')
+    menue.open = false;
+    currentMenuId = null;
+});
+
 getVacationRequests();
 
 // event listeners
@@ -43,20 +51,20 @@ document.getElementById("menu_cancel").addEventListener("click", function (){
     handleMenuClick("cancelled");
 });
 
-const moreIconBtns = document.querySelectorAll(".mdc-icon-button");
-for (let i = 0; i < moreIconBtns.length; i++) {
-    console.log(moreIconBtns[i].innerText);
-    const elmRipple = mdc.ripple.MDCRipple.attachTo(moreIconBtns[i]);
-    elmRipple.unbounded = true;
+const items = document.querySelectorAll(".mdc-list-item");
+// for (let i = 0; i < items.length; i++) {
+//     const elmRipple = mdc.ripple.MDCRipple.attachTo(items[i]);
+//     elmRipple.unbounded = true;
 
-    moreIconBtns[i].addEventListener("click", function (e) {
-        e.stopPropagation();
-        menue.open = !menue.open;
-        selectedListItem = e.currentTarget.parentElement;
-        const btnElementRect = e.currentTarget.getBoundingClientRect();
-        menue.setAbsolutePosition(btnElementRect.left, btnElementRect.top);
-    });
-}
+//     items[i].addEventListener("click", function (e) {
+//         console.log(e)
+//         e.stopPropagation();
+//         menue.open = !menue.open;
+//         selectedListItem = e.currentTarget.parentElement;
+//         const btnElementRect = e.currentTarget.getBoundingClientRect();
+//         menue.setAbsolutePosition(btnElementRect.left, btnElementRect.top);
+//     });
+// }
 
 function updateStateIcon (element){
     switch (element.dataset.state) {
@@ -117,16 +125,26 @@ function renderRequest(request) {
     text.appendChild(primaryText);
     text.appendChild(secondaryText);
 
-    let buttonMore = document.createElement('button');
-    buttonMore.classList = "mdc-icon-button material-icons mdc-top-app-bar__action-item";
-    buttonMore.innerHTML = "more_horiz"
-
     let requestElement = document.createElement("li");
     requestElement.classList = 'mdc-list-item';
     requestElement.role = 'menuitem';
     requestElement.appendChild(icon);
     requestElement.appendChild(text);
-    requestElement.appendChild(buttonMore);
+    requestElement.setAttribute('id', request.id);
+
+    requestElement.addEventListener("click", function (e) {
+        e.stopPropagation();
+        
+        if (currentMenuId && currentMenuId === request.id) {
+            menue.open = false;
+            currentMenuId = null;
+        } else {
+            menue.open = true;
+            currentMenuId = request.id;
+        }
+        selectedListItem = e.currentTarget.parentElement;
+        menue.setAbsolutePosition(e.clientX, e.clientY);
+    });
 
     document.getElementById('requests').appendChild(requestElement);
 }
