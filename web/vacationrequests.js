@@ -6,12 +6,19 @@ const menue = mdc.menu.MDCMenu.attachTo(document.querySelector(".mdc-menu"));
 const snackbar = mdc.snackbar.MDCSnackbar.attachTo(document.querySelector(".mdc-snackbar"));
 let selectedListItem = document.querySelector(".mdc-list-item");
 
-let currentMenuId;
+const states = {
+    pending: 'PENDING',
+    accepted: 'ACCEPTED',
+    denied: 'DENIED'
+}
+
+let vacationRequests;
+let currentItem;
 
 window.addEventListener("click", function (e) {
-    console.log('hi')
+    e.stopPropagation();
     menue.open = false;
-    currentMenuId = null;
+    currentItem = null;
 });
 
 getVacationRequests();
@@ -19,10 +26,10 @@ getVacationRequests();
 // event listeners
 function handleMenuClick(state) {
     const r = new XMLHttpRequest();
+    currentItem.state = state;
     r.addEventListener("load", function () {
         if (r.status == 200 || r.status == 204) {
-            selectedListItem.dataset.state = state;
-            updateStateIcon(selectedListItem)
+            getVacationRequests();
         } else {
             snackbar.labelText = "Request failed. Server returned " + r.status;
             snackbar.open();
@@ -32,56 +39,21 @@ function handleMenuClick(state) {
         snackbar.labelText = "Request failed. Please try again in 5 seconds.";
         snackbar.open();
     });
-    r.open("PATCH", selectedListItem.getElementsByTagName("a")[0].href);
-    r.setRequestHeader("Content-Type", "application/merge-patch+json");
-    r.send(JSON.stringify({
-        state: state
-    }));
+    r.open("PATCH", `${window.location}/${currentItem.id}`);
+    r.setRequestHeader('Content-Type', 'application/json');
+    r.send(JSON.stringify(currentItem));
+
+    currentItem = null;
+    menue.open = false;
 }
 
 document.getElementById("menu_accept").addEventListener("click", function(){
-    handleMenuClick("accepted" );
+    handleMenuClick(states.accepted);
 });
 
 document.getElementById("menu_reject").addEventListener("click", function(){
-    handleMenuClick("rejected");
+    handleMenuClick(states.denied);
 });
-
-document.getElementById("menu_cancel").addEventListener("click", function (){
-    handleMenuClick("cancelled");
-});
-
-const items = document.querySelectorAll(".mdc-list-item");
-// for (let i = 0; i < items.length; i++) {
-//     const elmRipple = mdc.ripple.MDCRipple.attachTo(items[i]);
-//     elmRipple.unbounded = true;
-
-//     items[i].addEventListener("click", function (e) {
-//         console.log(e)
-//         e.stopPropagation();
-//         menue.open = !menue.open;
-//         selectedListItem = e.currentTarget.parentElement;
-//         const btnElementRect = e.currentTarget.getBoundingClientRect();
-//         menue.setAbsolutePosition(btnElementRect.left, btnElementRect.top);
-//     });
-// }
-
-function updateStateIcon (element){
-    switch (element.dataset.state) {
-        case "new":
-            element.querySelector(".state-icon").innerHTML = "";
-            break;
-        case "accepted":
-            element.querySelector(".state-icon").innerHTML = "check_circle";
-            break;
-        case "rejected":
-            element.querySelector(".state-icon").innerHTML = "block";
-            break;
-        case "cancelled":
-            element.querySelector(".state-icon").innerHTML = "cancel";
-            break;
-    }
-}
 
 const listItems = document.querySelectorAll(".dmc-list-item");
 for (let i = 0; i < listItems.length; i++) {
@@ -95,17 +67,19 @@ function getVacationRequests() {
     Http.send();
 
     Http.onload = (e) => {
+        document.getElementById('requests').innerHTML='';
         JSON.parse(Http.responseText).vacationRequests.forEach(r => renderRequest(r));
     }
 }
 
 function renderRequest(request) {
-    
+
+
     let icon = document.createElement('span');
     icon.classList = "mdc-list-item__graphic  material-icons";
-    if (request.state === 'GRANTED') {
+    if (request.state === states.accepted) {
         icon.innerText = 'check_circle'
-    } else if (request.state === 'DENIED') {
+    } else if (request.state === states.denied) {
         icon.innerText = 'cancel'
     } else {
         icon.innerText = 'help'
@@ -135,12 +109,12 @@ function renderRequest(request) {
     requestElement.addEventListener("click", function (e) {
         e.stopPropagation();
         
-        if (currentMenuId && currentMenuId === request.id) {
+        if (currentItem && currentItem.id === request.id) {
             menue.open = false;
-            currentMenuId = null;
+            currentItem = null;
         } else {
             menue.open = true;
-            currentMenuId = request.id;
+            currentItem = request;
         }
         selectedListItem = e.currentTarget.parentElement;
         menue.setAbsolutePosition(e.clientX, e.clientY);

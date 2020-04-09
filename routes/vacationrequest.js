@@ -53,17 +53,12 @@ module.exports = function (assetBasePath) {
 
     router.post('/', (req, res) => {
 
-        let from = new Date(req.body.from);
-        let to = new Date(req.body.to);
-        
-        if (req.body.id !== undefined) {
+        let error = validateVacationRequest(req.body);
+
+        if(error) {
+            res.status(400).send(error);
+        } else if (req.body.id !== undefined) {
             res.status(400).send({error: 'Cannot specify id'});
-        } else if (!req.body.user) {
-            res.status(400).send({error: 'User is mandatory'});
-        }  else if (from == 'Invalid Date' || to == 'Invalid Date') {
-            res.status(400).send({error: 'Bad date'});
-        } else if (req.body.type !== 'Compensatory off time' && req.body.type !== 'Annual leave' && req.body.type !== 'Special leave') {
-            res.status(400).send({error: 'Bad status'})
         } else {
             let newRequest = JSON.parse(JSON.stringify(req.body));
             newRequest.id = uuid();
@@ -72,6 +67,44 @@ module.exports = function (assetBasePath) {
         }
     });
 
+    router.patch('/:id', (req, res) => {
+
+        let index;
+        let vacationRequest = vacationRequests.find((vr, i) => {
+            if (vr.id === req.params.id) {
+                index = i;
+                return true;
+            }
+            return false;
+        });
+
+        let error = validateVacationRequest(req.body);
+
+        if(error) {
+            res.status(400).send(error);
+        } else if (!vacationRequest) {
+            res.status(404).send('Not found');
+        } else {
+            vacationRequests[index] = req.body;
+            res.sendStatus(200);
+        }
+    });
+
     return router;
 };
 
+function validateVacationRequest(request) {
+
+    let from = new Date(request.from);
+    let to = new Date(request.to);
+
+    if (!request.user) {
+        return {error: 'User is mandatory'};
+    }  else if (from == 'Invalid Date' || to == 'Invalid Date') {
+        return {error: 'Bad date'};
+    } else if (request.type !== 'Compensatory off time' && request.type !== 'Annual leave' && request.type !== 'Special leave') {
+        return {error: 'Bad type'}
+    } else {
+        return null;
+    }
+}

@@ -14,6 +14,7 @@ function onClickSave() {
         from: document.getElementById('from-input').value,
         to: document.getElementById('to-input').value,
         type: getSelectedType(),
+        state: 'PENDING',
         comment: document.getElementById('comment-input').value
     }));
     
