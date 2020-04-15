@@ -1,8 +1,5 @@
 'use strict';
 
-
-console.log(new Date(new Date('bfj;kalsdjsfklj;')))
-
 function onClickSave() {
 
     var request = new XMLHttpRequest();

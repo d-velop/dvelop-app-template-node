@@ -14,7 +14,6 @@ module.exports = function (assetBasePath, basePath, version) {
                     version: version
                 });
             },
-
             'application/hal+json': function () {
                 res.send(
                     {
@@ -26,7 +25,6 @@ module.exports = function (assetBasePath, basePath, version) {
                     }
                 )
             },
-
             'default': function () {
                 res.status(406).send('Not Acceptable')
             }

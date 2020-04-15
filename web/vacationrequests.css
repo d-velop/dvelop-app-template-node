@@ -3,21 +3,6 @@
     --mdc-theme-on-primary: #fff;
 }
 
-/* .dmc-list-item {
-    position: relative;
-}
-
-.dmc-list-item .mdc-list-item__meta {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translate(-50%,-50%);
-}
-
-.dmc-list-item__graphic {
-    margin-right: 16px;
-} */
-
 #requests .mdc-list-item {
     margin: 10px;
 }
@@ -37,5 +22,3 @@
 [data-state="cancelled"] .mdc-list-item__text{
     text-decoration: line-through;
 }
-
-

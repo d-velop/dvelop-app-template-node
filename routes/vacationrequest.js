@@ -1,7 +1,7 @@
 const express = require('express');
 const uuid = require('uuid');
 
-var vacationRequests = [
+let vacationRequests = [
     {
         id: '06e8c6be-0ad6-46e5-952e-1bc3d3cbe856',
         user: "Lennart Klose",
@@ -99,11 +99,11 @@ function validateVacationRequest(request) {
     let to = new Date(request.to);
 
     if (!request.user) {
-        return {error: 'User is mandatory'};
+        return { error: 'User is mandatory' };
     }  else if (from == 'Invalid Date' || to == 'Invalid Date') {
-        return {error: 'Bad date'};
+        return { error: 'Bad date' };
     } else if (request.type !== 'Compensatory off time' && request.type !== 'Annual leave' && request.type !== 'Special leave') {
-        return {error: 'Bad type'}
+        return { error: 'Bad type' }
     } else {
         return null;
     }

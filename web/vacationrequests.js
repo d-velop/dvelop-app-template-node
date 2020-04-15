@@ -74,7 +74,6 @@ function getVacationRequests() {
 
 function renderRequest(request) {
 
-
     let icon = document.createElement('span');
     icon.classList = "mdc-list-item__graphic  material-icons";
     if (request.state === states.accepted) {
