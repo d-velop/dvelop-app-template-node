@@ -11,8 +11,8 @@ function onClickSave() {
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({
         user: document.getElementById('name-input').value,
-        from: document.getElementById('from-input').value,
-        to: document.getElementById('to-input').value,
+        from: stringToDate(document.getElementById('from-input').value),
+        to: stringToDate(document.getElementById('to-input').value),
         type: getSelectedType(),
         state: 'PENDING',
         comment: document.getElementById('comment-input').value
@@ -34,4 +34,9 @@ function getSelectedType() {
             return radioBtn.value;
         }
     }
+}
+
+function stringToDate(s) {
+    const [day, month, year] = s.split('.');
+    return new Date(year, month - 1, day);
 }
