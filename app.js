@@ -33,9 +33,7 @@ logger.token('requestId', function getRequestId(req) {
 });
 app.use(logger('[ctx@49610 rid=":requestId" tn=":tenantId"][http@49610 method=":method" url=":url" millis=":response-time" sbytes=":res[content-length]" status=":status"] '));
 app.use(express.json({type: ['application/json', 'application/*+json']}));
-app.use(function (err, req, res, next) {
-    res.status(400).send({error: 'Bad json'});
-});
+
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(assetBasePath, express.static(path.join(__dirname, 'web')));
