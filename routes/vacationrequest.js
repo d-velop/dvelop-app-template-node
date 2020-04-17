@@ -1,13 +1,15 @@
 const express = require('express');
 const uuid = require('uuid');
 
+
+
 let vacationRequests = [
     {
         id: '06e8c6be-0ad6-46e5-952e-1bc3d3cbe856',
         user: "Lennart Klose",
         from: new Date('2020-04-01'),
         to: new Date('2020-12-31'),
-        state: 'GRANTED',
+        state: 'ACCEPTED',
         type: 'Compensatory off time',
         comment: 'I worked so hard.'
     },
@@ -78,33 +80,81 @@ module.exports = function (assetBasePath) {
             return false;
         });
 
-        let error = validateVacationRequest(req.body);
-
-        if(error) {
-            res.status(400).send(error);
-        } else if (!vacationRequest) {
+        if (!vacationRequest) {
             res.status(404).send('Not found');
-        } else {
-            vacationRequests[index] = req.body;
-            res.sendStatus(200);
         }
+
+        console.log(req.body)
+
+        try {
+            if (req.body.hasOwnProperty('user')) {
+                console.log('USER')
+                validateUser(req.body.user);
+                vacationRequests[index].user = req.body.user;
+            }
+            if (req.body.hasOwnProperty('from')) {
+                validateDate(new Date(req.body.from));
+                vacationRequests[index].from = req.body.from;
+            }
+            if (req.body.hasOwnProperty('to')) {
+                validateDate(new Date(req.body.to));
+                vacationRequests[index].to = req.body.to;
+            }
+            if (req.body.hasOwnProperty('type')) {
+                validateType(req.body.type);
+                vacationRequests[index].type = req.body.type;
+            }
+            if (req.body.hasOwnProperty('state')) {
+                validateUser(req.body.state);
+                vacationRequests[index].state = req.body.state;
+            }
+            if (req.body.hasOwnProperty('comment')) {
+                vacationRequests[index].comment = req.body.comment;
+            }
+        } catch (e) {
+            res.status(400).send(e);
+        }
+
+        res.sendStatus(200);
     });
 
     return router;
 };
 
 function validateVacationRequest(request) {
+    try {
+        validateUser(request.user);
+        validateDate(new Date(request.from));
+        validateDate(new Date(request.to));
+        validateType(request.type);
+        validateState(request.state);
+    } catch (e) {
+        console.log(e)
+        return e;
+    }
+    return null;
+}
 
-    let from = new Date(request.from);
-    let to = new Date(request.to);
+function validateUser(user) {
+    if (!user) {
+        throw { error: 'User is mandatory'}
+    }
+}
 
-    if (!request.user) {
-        return { error: 'User is mandatory' };
-    }  else if (from == 'Invalid Date' || to == 'Invalid Date') {
-        return { error: 'Bad date' };
-    } else if (request.type !== 'Compensatory off time' && request.type !== 'Annual leave' && request.type !== 'Special leave') {
-        return { error: 'Bad type' }
-    } else {
-        return null;
+function validateDate(date) {
+    if (date == 'Invalid Date' || date.getTime() === new Date(null).getTime()) {
+        throw { error: 'Bad Date'}
+    }
+}
+
+function validateType(type) {
+    if (type !== 'Compensatory off time' && type !== 'Annual leave' && type !== 'Special leave') {
+        throw { error: 'Bad type'}
+    }
+}
+
+function validateState(state) {
+    if (state !== 'PENDING' && state !== 'ACCEPTED' && state !== 'DENIED') {
+        throw { error: 'Bad State'}
     }
 }

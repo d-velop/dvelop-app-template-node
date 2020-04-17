@@ -41,7 +41,7 @@ function handleMenuClick(state) {
     });
     r.open("PATCH", `${window.location}/${currentItem.id}`);
     r.setRequestHeader('Content-Type', 'application/json');
-    r.send(JSON.stringify(currentItem));
+    r.send(JSON.stringify({state: state}));
 
     currentItem = null;
     menue.open = false;
