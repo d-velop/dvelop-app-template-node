@@ -45,6 +45,15 @@ app.use(basePath + '/features', featuresRouter);
 app.use(basePath + '/vacationrequest/', vacationrequestRouter);
 app.use(basePath + '/idpdemo', idpDemoRouter);
 
+app.use('/', function (req, res) {
+    res.render('error', {
+        message: `Within the d.velop cloud your app will always be called with route ${basePath}`,
+        error: {
+            status: '404 Not Found'
+        }
+    })
+})
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
