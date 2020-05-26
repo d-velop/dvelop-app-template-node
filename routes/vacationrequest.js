@@ -6,16 +6,16 @@ const uuid = require('uuid');
 let vacationRequests = [
     {
         id: '06e8c6be-0ad6-46e5-952e-1bc3d3cbe856',
-        user: "Lennart Klose",
+        user: "Leonard Hofstadter",
         from: new Date('2020-04-01'),
-        to: new Date('2020-12-31'),
+        to: new Date('2020-04-01'),
         state: 'ACCEPTED',
         type: 'Compensatory off time',
-        comment: 'I worked so hard.'
+        comment: 'I have to take Sheldon to the dentist.'
     },
     {
         id: '8d404a9c-81ff-4cde-bb26-9801ee219b2d',
-        user: "Martin Testrot",
+        user: "Howard Wolowitz",
         from: new Date('2020-12-24'),
         to: new Date('2020-12-31'),
         state: 'DENIED',
