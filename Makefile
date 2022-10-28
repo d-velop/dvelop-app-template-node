@@ -62,6 +62,10 @@ show: tf-init
 	cd ./terraform && \
 	terraform show
 
+update-tf:
+	cd ./terraform && \
+  terraform 0.12upgrade --yes
+
 rename:
 	if [ -z $${NAME} ]; then echo "NAME is not set. Usage: rename NAME=NEW_APP_NAME"; exit 1; fi
 	@echo Rename App to $(NAME) ...
