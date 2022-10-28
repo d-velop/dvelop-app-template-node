@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "assets" {
     allowed_origins = ["*"]
   }
 
-  policy = <<POLICY
+  policy = jsonencode(
 {
   "Version":"2012-10-17",
   "Statement":[{
@@ -21,9 +21,9 @@ resource "aws_s3_bucket" "assets" {
     }
   ]
 }
-POLICY
+  )
 
-  tags {
+  tags = {
     Created_By = "Terraform - do not modify in AWS Management Console"
   }
 }
@@ -52,7 +52,7 @@ resource "aws_lambda_function" "service" {
     mode = "Active"
   }
 
-  tags {
+  tags = {
     Name       = "${var.appname}service-lambda-fn"
     Created_By = "Terraform - do not modify in AWS Management Console"
   }

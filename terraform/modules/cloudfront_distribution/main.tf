@@ -113,7 +113,7 @@ resource "aws_cloudfront_distribution" "dist" {
     }
   }
 
-  tags {
+  tags = {
     Name       = "dist for ${var.origin_domain_name}"
     Created_By = "Terraform - do not modify in AWS Management Console"
   }
