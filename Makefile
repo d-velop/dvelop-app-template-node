@@ -32,7 +32,7 @@ tf-bucket:
 
 tf-init: tf-bucket
 	cd ./terraform && \
-	terraform init -input=false -plugin-dir=/usr/local/lib/custom-terraform-plugins
+	terraform init -input=false
 
 plan: tf-init build-lambda asset_hash
 	$(eval PLAN=$(shell mktemp))
