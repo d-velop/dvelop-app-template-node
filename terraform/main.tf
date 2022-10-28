@@ -26,7 +26,7 @@ module "serverless_lambda_app" {
   lambda_file        = local.lambda_file
   source_code_hash   = local.source_code_hash
   lambda_handler     = "lambda.handler"
-  lambda_runtime     = "nodejs12.x"
+  lambda_runtime     = "nodejs16.x"
   assets_bucket_name = local.assets_bucket_name
 
   # Which rights should the lambda function have.
