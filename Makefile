@@ -32,17 +32,17 @@ tf-bucket:
 
 tf-init: tf-bucket
 	cd ./terraform && \
-	terraform init -input=false -plugin-dir=/usr/local/lib/custom-terraform-plugins
+	terraform init -input=false
 
 plan: tf-init build-lambda asset_hash
 	$(eval PLAN=$(shell mktemp))
 	cd ./terraform && \
 	terraform plan -input=false \
-	-var 'signature_secret="$(SIGNATURE_SECRET)"' \
-	-var 'build_version="$(BUILD_VERSION)"' \
-	-var 'appname="$(APP_NAME)"' \
-	-var 'domainsuffix="$(DOMAIN_SUFFIX)"' \
-	-var 'asset_hash="$(ASSET_HASH)"' \
+	-var 'signature_secret=$(SIGNATURE_SECRET)' \
+	-var 'build_version=$(BUILD_VERSION)' \
+	-var 'appname=$(APP_NAME)' \
+	-var 'domainsuffix=$(DOMAIN_SUFFIX)' \
+	-var 'asset_hash=$(ASSET_HASH)' \
 	-out=$(PLAN)
 
 apply: plan
