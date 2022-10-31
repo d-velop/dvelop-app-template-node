@@ -1,32 +1,3 @@
-#cf. https://www.terraform.io/docs/providers/aws/r/s3_bucket.html
-resource "aws_s3_bucket" "assets" {
-  bucket = var.assets_bucket_name
-
-  # required if webfonts are delivered cf. https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html and https://zinoui.com/blog/cross-domain-fonts
-  cors_rule {
-    allowed_methods = ["GET"]
-    allowed_origins = ["*"]
-  }
-
-  policy = jsonencode(
-{
-  "Version":"2012-10-17",
-  "Statement":[{
-      "Sid":"PublicReadGetObject",
-      "Effect":"Allow",
-      "Principal": "*",
-      "Action":["s3:GetObject"],
-      "Resource":["arn:aws:s3:::${var.assets_bucket_name}/*"]
-    }
-  ]
-}
-  )
-
-  tags = {
-    Created_By = "Terraform - do not modify in AWS Management Console"
-  }
-}
-
 # cf. https://www.terraform.io/docs/providers/aws/r/lambda_function.html
 resource "aws_lambda_function" "service" {
   filename         = var.lambda_file
